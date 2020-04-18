@@ -37,11 +37,11 @@ public class Student {
         this.id = id;
     }
 
-    public String getMssv() {
+    public String getmssv() {
         return mssv;
     }
 
-    public void setMssv(String mssv) {
+    public void setmssv(String mssv) {
         this.mssv = mssv;
     }
 

@@ -51,11 +51,9 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 studentAdapter.clear();
                 for(DataSnapshot data: dataSnapshot.getChildren()){
-                    Student student = new Student();
-                    if(student!=null){
-                        student.setId(data.getKey());
-                        studentAdapter.add(student);
-                    }
+                    Student student = data.getValue(Student.class);
+                    student.setId(data.getKey());
+                    studentAdapter.add(student);
                 }
                 Toast.makeText(getApplicationContext(), "Load Data Success", Toast.LENGTH_SHORT).show();
             }
