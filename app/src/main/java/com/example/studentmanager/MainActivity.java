@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -32,7 +35,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         toolbar = findViewById(R.id.toolbar);
-        toolbar.inflateMenu(R.menu.popup_menu);
+        toolbar.inflateMenu(R.menu.menu_add);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId()==R.id.item_add){
+                    Intent intent = new Intent(MainActivity.this, AddStudentActivity.class);
+                    startActivity(intent);
+                }
+                return false;
+            }
+        });
 
         lvStudent = findViewById(R.id.lvStudent);
 
