@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddStudentActivity"
+    tools:context=".EditStudentActivity"
     android:orientation="vertical"
     >
 
     <androidx.appcompat.widget.Toolbar
         android:background="@color/colorToolBar"
         android:id="@+id/toolbarAdd"
-        app:title="Add Student"
+        app:title="Edit Student"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:titleTextColor="#FFF"/>
@@ -23,7 +23,7 @@
         android:layout_margin="10dp"
         android:textColor="#FF000000"/>
     <EditText
-        android:id="@+id/txtMssv"
+        android:id="@+id/edtMssv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
@@ -38,7 +38,7 @@
         android:layout_margin="10dp"
         android:textColor="#FF000000"/>
     <EditText
-        android:id="@+id/txtName"
+        android:id="@+id/edtName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
@@ -53,7 +53,7 @@
         android:layout_margin="10dp"
         android:textColor="#FF000000"/>
     <EditText
-        android:id="@+id/txtEmail"
+        android:id="@+id/edtEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
@@ -68,7 +68,7 @@
         android:layout_margin="10dp"
         android:textColor="#FF000000"/>
     <EditText
-        android:id="@+id/txtPhoneNumber"
+        android:id="@+id/edtPhoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"

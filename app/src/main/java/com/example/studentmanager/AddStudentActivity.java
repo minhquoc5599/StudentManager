@@ -17,7 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class AddStudentActivity extends AppCompatActivity {
 
-    private EditText edtMssv, edtName, edtEmail, edtPhoneNumber;
+    private EditText txtMssv, txtName, txtEmail, txtPhoneNumber;
     Toolbar toolbarAdd;
 
     @Override
@@ -33,10 +33,10 @@ public class AddStudentActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId()==R.id.item_save){
-                    String mssv = edtMssv.getText().toString();
-                    String name = edtName.getText().toString();
-                    String email = edtEmail.getText().toString();
-                    String phoneNumber = edtPhoneNumber.getText().toString();
+                    String mssv = txtMssv.getText().toString();
+                    String name = txtName.getText().toString();
+                    String email = txtEmail.getText().toString();
+                    String phoneNumber = txtPhoneNumber.getText().toString();
                     Student student = new Student(mssv, name, email, phoneNumber);
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference myRef = database.getReference("StudentDatabase");
@@ -61,10 +61,10 @@ public class AddStudentActivity extends AppCompatActivity {
     }
 
     private void addControl() {
-        edtMssv = findViewById(R.id.edtMssv);
-        edtName = findViewById(R.id.edtName);
-        edtEmail = findViewById(R.id.edtEmail);
-        edtPhoneNumber = findViewById(R.id.edtPhoneNumber);
+        txtMssv = findViewById(R.id.txtMssv);
+        txtName = findViewById(R.id.txtName);
+        txtEmail = findViewById(R.id.txtEmail);
+        txtPhoneNumber = findViewById(R.id.txtPhoneNumber);
         toolbarAdd = findViewById(R.id.toolbarAdd);
         toolbarAdd.inflateMenu(R.menu.menu_save);
     }

@@ -1,13 +1,17 @@
 package com.example.studentmanager;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Student> studentArrayList;
     StudentAdapter studentAdapter;
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
+    DatabaseReference myRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,17 +58,51 @@ public class MainActivity extends AppCompatActivity {
 
         studentAdapter = new StudentAdapter(this, R.layout.listview_item, studentArrayList);
         lvStudent.setAdapter(studentAdapter);
+
+        lvStudent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intentDetail = new Intent(MainActivity.this, DetailStudentActivity.class);
+                Student student=studentArrayList.get(position);
+                intentDetail.putExtra("STUDENT", student);
+                startActivity(intentDetail);
+            }
+        });
+        lvStudent.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final Student student = studentArrayList.get(position);
+                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                dialog.setMessage("Bạn có muốn xoá sinh viên này ?")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                myRef.child(student.getId()).removeValue(new DatabaseReference.CompletionListener() {
+                                    @Override
+                                    public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                                        Toast.makeText(MainActivity.this, "Xoá thành công", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("Cancel", null);
+                dialog.create().show();
+                return true;
+            }
+        });
+
     }
 
     private void getData(){
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("StudentDatabase");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        myRef = firebaseDatabase.getReference("StudentDatabase");
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 studentAdapter.clear();
                 for(DataSnapshot data: dataSnapshot.getChildren()){
                     Student student = data.getValue(Student.class);
+                    assert student != null;
                     student.setId(data.getKey());
                     studentAdapter.add(student);
                 }
