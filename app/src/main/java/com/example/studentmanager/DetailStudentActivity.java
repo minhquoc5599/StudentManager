@@ -47,7 +47,6 @@ public class DetailStudentActivity extends AppCompatActivity {
         txtEmail = findViewById(R.id.txtEmail);
         txtPhoneNumber = findViewById(R.id.txtPhoneNumber);
         toolbarDetail = findViewById(R.id.toolbarDetail);
-        toolbarDetail.inflateMenu(R.menu.menu_edit);
         Intent intent = getIntent();
         student = (Student) intent.getSerializableExtra("STUDENT");
         if(student!=null){

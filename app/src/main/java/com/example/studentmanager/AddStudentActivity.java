@@ -1,11 +1,14 @@
 package com.example.studentmanager;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,39 +28,51 @@ public class AddStudentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_student);
         addControl();
-        addStudent();
-    }
-
-    private void addStudent() {
-        toolbarAdd.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+        setSupportActionBar(toolbarAdd);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        toolbarAdd.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if(item.getItemId()==R.id.item_save){
-                    String mssv = txtMssv.getText().toString();
-                    String name = txtName.getText().toString();
-                    String email = txtEmail.getText().toString();
-                    String phoneNumber = txtPhoneNumber.getText().toString();
-                    Student student = new Student(mssv, name, email, phoneNumber);
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference myRef = database.getReference("StudentDatabase");
-                    String id = myRef.push().getKey();
-                    myRef.child(id).setValue(student).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(getApplicationContext(), "Thêm thành công",Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getApplicationContext(), "Thêm thất bại "+e.toString(),Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                }
-                return false;
+            public void onClick(View v) {
+                finish();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_save, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==R.id.item_save){
+            String mssv = txtMssv.getText().toString().trim();
+            String name = txtName.getText().toString().trim();
+            String email = txtEmail.getText().toString().trim();
+            String phoneNumber = txtPhoneNumber.getText().toString().trim();
+            Student student = new Student(mssv, name, email, phoneNumber);
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference("StudentDatabase");
+            String id = myRef.push().getKey();
+            assert id != null;
+            myRef.child(id).setValue(student).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(getApplicationContext(), "Thêm thành công",Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(), "Thêm thất bại "+e.toString(),Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void addControl() {
@@ -66,6 +81,5 @@ public class AddStudentActivity extends AppCompatActivity {
         txtEmail = findViewById(R.id.txtEmail);
         txtPhoneNumber = findViewById(R.id.txtPhoneNumber);
         toolbarAdd = findViewById(R.id.toolbarAdd);
-        toolbarAdd.inflateMenu(R.menu.menu_save);
     }
 }

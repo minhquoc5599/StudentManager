@@ -10,7 +10,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:background="@color/colorToolBar"
-        android:id="@+id/toolbarAdd"
+        android:id="@+id/toolbarEdit"
         app:title="Edit Student"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
